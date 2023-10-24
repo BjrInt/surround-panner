@@ -26,13 +26,13 @@ export function computeSpeakerOffset(
   };
 
   const surroundLeftPosition: Point = {
-    x: 0 - Math.sin(deg2rad(radSurround)) / 2,
-    y: Math.cos(deg2rad(radSurround)) / 2,
+    x: 0 - Math.sin(radSurround) / 2,
+    y: Math.cos(radSurround) / 2,
   };
 
   const surroundRightPosition: Point = {
-    x: Math.sin(deg2rad(radSurround)) / 2,
-    y: Math.cos(deg2rad(radSurround)) / 2,
+    x: Math.sin(radSurround) / 2,
+    y: Math.cos(radSurround) / 2,
   };
 
   const speakerPositions: SpeakerPositions = {
