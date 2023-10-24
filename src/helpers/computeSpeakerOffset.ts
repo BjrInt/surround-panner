@@ -12,24 +12,27 @@ export function computeSpeakerOffset(
   frontOffset: number = 30,
   surroundOffset: number = 110
 ) {
+  const radSurround = deg2rad(surroundOffset);
+  const radFront = deg2rad(frontOffset);
+
   const frontLeftPosition: Point = {
-    x: 0 - Math.sin(deg2rad(frontOffset)) / 2,
-    y: Math.cos(deg2rad(frontOffset)) / 2,
+    x: 0 - Math.sin(radFront) / 2,
+    y: Math.cos(radFront) / 2,
   };
 
   const frontRightPosition: Point = {
-    x: Math.sin(deg2rad(frontOffset)) / 2,
-    y: Math.cos(deg2rad(frontOffset)) / 2,
+    x: Math.sin(radFront) / 2,
+    y: Math.cos(radFront) / 2,
   };
 
   const surroundLeftPosition: Point = {
-    x: 0 - Math.sin(deg2rad(surroundOffset)) / 2,
-    y: Math.cos(deg2rad(surroundOffset)) / 2,
+    x: 0 - Math.sin(deg2rad(radSurround)) / 2,
+    y: Math.cos(deg2rad(radSurround)) / 2,
   };
 
   const surroundRightPosition: Point = {
-    x: Math.sin(deg2rad(surroundOffset)) / 2,
-    y: Math.cos(deg2rad(surroundOffset)) / 2,
+    x: Math.sin(deg2rad(radSurround)) / 2,
+    y: Math.cos(deg2rad(radSurround)) / 2,
   };
 
   const speakerPositions: SpeakerPositions = {
