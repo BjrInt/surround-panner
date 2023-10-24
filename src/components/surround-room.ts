@@ -57,7 +57,7 @@ export class Room extends LitElement {
     const ADJUSTED_RADIUS = 0.51;
 
     if (isInCircle(detail, { x: 0.5, y: 0.5 }, ADJUSTED_RADIUS))
-      this.dispatchEvent(new CustomEvent("listenerMoved", { detail }));
+      this.dispatchEvent(new CustomEvent("soundSourceMoved", { detail }));
   }
 
   handleDrag(e: DragEvent) {

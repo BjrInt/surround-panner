@@ -12,13 +12,13 @@ const defaultOptions = {
 /**
  * Computes the volumes for a standard 5.1 speaker setup (without subwoofer)
  *
- * @param listenersPosition Position of the listener in the room
+ * @param soundSource Position of the listener in the room
  * @param speakerPositions Positions of the speakers in the room
  * @param options Reference level in dB
  * @returns A speaker volume object
  */
 export function computeSpeakerLevels(
-  listenersPosition: Point,
+  soundSource: Point,
   speakerPositions: SpeakerPositions,
   options: computeSpeakerLevelsOptions = defaultOptions
 ): SpeakerVolumes {

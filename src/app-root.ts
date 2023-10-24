@@ -13,13 +13,13 @@ export class AppRoot extends LitElement {
   };
 
   @state()
-  listenersPosition = {
+  soundSource = {
     x: 0.5,
     y: 0.5,
   };
 
-  moveListener(e: CustomEvent<{ x: number; y: number }>) {
-    this.listenersPosition = e.detail;
+  moveSoundSource(e: CustomEvent<{ x: number; y: number }>) {
+    this.soundSource = e.detail;
   }
 
   offsetChangeListener(
@@ -82,16 +82,16 @@ export class AppRoot extends LitElement {
             radius="30"
             frontOffset=${this.offsets.frontOffset}
             surroundOffset=${this.offsets.surroundOffset}
-            x=${this.listenersPosition.x}
-            y=${this.listenersPosition.y}
-            @listenerMoved=${this.moveListener}
+            x=${this.soundSource.x}
+            y=${this.soundSource.y}
+            @soundSourceMoved=${this.moveSoundSource}
           ></surround-room>
         </div>
 
         <div>
           <side-panel
-            x=${this.listenersPosition.x}
-            y=${this.listenersPosition.y}
+            x=${this.soundSource.x}
+            y=${this.soundSource.y}
             frontOffset=${this.offsets.frontOffset}
             surroundOffset=${this.offsets.surroundOffset}
             @offsetChanged=${this.offsetChangeListener}
