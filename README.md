@@ -6,6 +6,7 @@ A surround panner is like a magical tool for sound that helps us feel immersed i
 
 ## Notes / To Do
 
+- ⚠️ This is not working on Firefox
 - Add volumes computation
 - This should work on mobile phone, but it wasn't battle-tested.
 - The subwoofer volume is not included.
