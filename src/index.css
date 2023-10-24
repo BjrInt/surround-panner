@@ -1,0 +1,22 @@
+:root{
+  --background: #302b27;
+  --background-darker: #1a1918;
+  --foreground-light: #c5baa1;
+  --foreground-dark: #686561;
+
+  --primary: #a4f5da;
+  --secondary: #f2e279;
+  --tertiary: #f53d7a;
+}
+
+html, body{
+  background: var(--background);
+  color: var(--foreground-light);
+  padding: 1vmax;
+  box-sizing: border-box;
+  font-family: sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
