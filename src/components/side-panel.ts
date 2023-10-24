@@ -170,7 +170,7 @@ export class SidePanel extends LitElement {
           </div>`
         : html`<div></div>`}
 
-      <h2>Volumes</h2>
+      <h2>Gains</h2>
 
       <div>
         <ul>
