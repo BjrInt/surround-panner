@@ -1,7 +1,6 @@
 import { LitElement, css, html } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
 import { computeSpeakerLevels } from "../helpers/computeSpeakerLevels";
-import { memoizedComputeSpeakerOffset } from "../helpers/computeSpeakerOffset";
 import { uncamel } from "../helpers/utils";
 
 @customElement("side-panel")
@@ -132,10 +131,8 @@ export class SidePanel extends LitElement {
   `;
 
   protected render() {
-    const levels = computeSpeakerLevels(
-      { x: this.x, y: 1 - this.y },
-      memoizedComputeSpeakerOffset(this.frontOffset, this.surroundOffset)
-    );
+    const levels = computeSpeakerLevels();
+
     return html`<section>
       <h2 @click=${this.toggleOptions} class="foldable">
         <span>${this.displayOptions ? "-" : "+"}</span>

@@ -1,13 +1,17 @@
-import { Point, SpeakerPositions, SpeakerVolumes } from "./types";
+import {
+  // Point,
+  // SpeakerPositions,
+  SpeakerVolumes,
+} from "./types";
 
 // @note: Use an object for options so it's expandable (e.g: add a unit vector)
-export type computeSpeakerLevelsOptions = {
-  referenceLevel?: number;
-};
+// export type computeSpeakerLevelsOptions = {
+//   referenceLevel?: number;
+// };
 
-const defaultOptions = {
-  referenceLevel: 90,
-};
+// const defaultOptions = {
+//   referenceLevel: 90,
+// };
 
 /**
  * Computes the volumes for a standard 5.1 speaker setup (without subwoofer)
@@ -17,11 +21,10 @@ const defaultOptions = {
  * @param options Reference level in dB
  * @returns A speaker volume object
  */
-export function computeSpeakerLevels(
-  soundSource: Point,
-  speakerPositions: SpeakerPositions,
-  options: computeSpeakerLevelsOptions = defaultOptions
-): SpeakerVolumes {
+export function computeSpeakerLevels(): SpeakerVolumes {
+// soundSource: Point,
+// speakerPositions: SpeakerPositions,
+// options: computeSpeakerLevelsOptions = defaultOptions
   // @todo
   const levels: SpeakerVolumes = {
     center: Math.random() * 100,
