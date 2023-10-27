@@ -19,8 +19,7 @@ export class AppRoot extends LitElement {
   };
 
   moveSoundSource(e: CustomEvent<{ x: number; y: number }>) {
-    this.soundSource.x = e.detail.x || this.soundSource.x;
-    this.soundSource.y = e.detail.y || this.soundSource.y;
+    this.soundSource = e.detail;
   }
 
   offsetChangeListener(
