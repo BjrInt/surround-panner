@@ -8,6 +8,8 @@ export const minMax = (a: number, b: number): MinMax => {
 
 export const normalizedPosition = (x: number): number => (x - 0.5) * 2;
 
+export const internalPosition = (x: number): number => x / 2 + 0.5;
+
 export const getAbsoluteDistance = (a: Point, b: Point): number => {
   const dx = a.x - b.x;
   const dy = a.y - b.y;

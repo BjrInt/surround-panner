@@ -1,12 +1,13 @@
 import { LitElement, html } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import { customElement, property, state } from "lit/decorators.js";
 import { styleMap } from "lit/directives/style-map.js";
 import { memoizedComputeSpeakerOffset } from "../helpers/computeSpeakerOffset";
-import { isInCircle, noop } from "../helpers/utils";
+import { noop } from "../helpers/utils";
 
 import "./room-divider";
 import "./room-speaker";
 import "./coordinates-display";
+import "./draggable-dot";
 
 @customElement("surround-room")
 export class Room extends LitElement {
@@ -25,6 +26,7 @@ export class Room extends LitElement {
   @property()
   surroundOffset: number = 110;
 
+  @state()
   roomSize: DOMRect = {
     height: 0,
     width: 0,
@@ -37,6 +39,16 @@ export class Room extends LitElement {
     toJSON: noop,
   };
 
+  moveSoundSource(e: CustomEvent<{ x: number; y: number }>) {
+    this.x = e.detail.x;
+    this.y = e.detail.y;
+
+    // @note: There might be a better way to stream an event to an higher order component
+    this.dispatchEvent(
+      new CustomEvent("surroundRoomPositionChanged", { detail: e.detail })
+    );
+  }
+
   updateRoomSize() {
     const circleDiv = this.shadowRoot?.getElementById("main-circle");
     this.roomSize = (circleDiv as HTMLElement).getBoundingClientRect();
@@ -48,41 +60,13 @@ export class Room extends LitElement {
     window.addEventListener("resize", () => {
       this.updateRoomSize();
     });
-  }
 
-  checkBoundariesAndDispatch(detail: { x: number; y: number }) {
-    if (detail.x < 0 || detail.x > 1 || detail.y < 0 || detail.y > 1) return;
-
-    // @note: Create a slightly greater radius to allow dragging on the edge
-    const ADJUSTED_RADIUS = 0.51;
-
-    if (isInCircle(detail, { x: 0.5, y: 0.5 }, ADJUSTED_RADIUS))
-      this.dispatchEvent(new CustomEvent("soundSourceMoved", { detail }));
-  }
-
-  handleDrag(e: DragEvent) {
-    // @note: Fixes a weird bug where a drag event with a 0 clientX and clientY is fired at the end of a movement
-    if (e.clientX === 0 && e.clientY === 0) return;
-
-    const x = (e.clientX - this.roomSize.left) / this.roomSize.width;
-    const y = (e.clientY - this.roomSize.top) / this.roomSize.height;
-
-    const detail = { x, y };
-    if (e.ctrlKey) detail.x = this.x;
-
-    if (e.shiftKey) detail.y = this.y;
-
-    return this.checkBoundariesAndDispatch(detail);
-  }
-
-  // @note: Mobile support
-  handleTouchMove(e: TouchEvent) {
-    const touch = e.touches[0];
-    const x = (touch.clientX - this.roomSize.left) / this.roomSize.width;
-    const y = (touch.clientY - this.roomSize.top) / this.roomSize.height;
-
-    const detail = { x, y };
-    return this.checkBoundariesAndDispatch(detail);
+    // @fixme: For some reason, the room size is not updated on the first render
+    // This is a temporary fix
+    // @note: Check lit lifecycle hooks
+    setTimeout(() => {
+      this.updateRoomSize();
+    }, 100);
   }
 
   protected render() {
@@ -99,6 +83,7 @@ export class Room extends LitElement {
       position: "relative",
       margin: "0",
       padding: "0",
+      boxSizing: "border-box",
     };
 
     const wrapperStyles = {
@@ -108,29 +93,22 @@ export class Room extends LitElement {
       display: "flex",
       justifyContent: "center",
       alignItems: "center",
+      boxSizing: "border-box",
     };
 
     return html`
       <section>
         <div style=${styleMap(wrapperStyles)}>
           <div style=${styleMap(circleStyles)} id="main-circle">
-            <div
-              style=${styleMap({
-                top: this.y * 100 + "%",
-                left: this.x * 100 + "%",
-                height: "1em",
-                width: "1em",
-                background: "var(--foreground-light)",
-                position: "absolute",
-                borderRadius: "50%",
-                transform: "translate(-50%, -50%)",
-                boxSizing: "border-box",
-                cursor: "grab",
-              })}
-              @drag=${this.handleDrag}
-              @touchmove=${this.handleTouchMove}
-              draggable="true"
-            ></div>
+            <draggable-dot
+              offsetX=${this.roomSize.left}
+              offsetY=${this.roomSize.top}
+              roomWidth=${this.roomSize.width}
+              roomHeight=${this.roomSize.height}
+              x=${this.x}
+              y=${this.y}
+              @soundSourceMoved=${this.moveSoundSource}
+            ></draggable-dot>
 
             <room-divider direction="horizontal"></room-divider>
             <room-divider direction="vertical"></room-divider>
@@ -178,7 +156,11 @@ export class Room extends LitElement {
           </room-speaker>
         </div>
 
-        <coordinates-display x=${this.x} y=${this.y}></coordinates-display>
+        <coordinates-display
+          x=${this.x}
+          y=${this.y}
+          @coordinatesChanged=${this.moveSoundSource}
+        ></coordinates-display>
       </section>
     `;
   }
