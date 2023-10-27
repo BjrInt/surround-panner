@@ -84,7 +84,7 @@ export class AppRoot extends LitElement {
             surroundOffset=${this.offsets.surroundOffset}
             x=${this.soundSource.x}
             y=${this.soundSource.y}
-            @soundSourceMoved=${this.moveSoundSource}
+            @surroundRoomPositionChanged=${this.moveSoundSource}
           ></surround-room>
         </div>
 
