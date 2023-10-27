@@ -48,8 +48,12 @@ export class DraggableDot extends LitElement {
 
   dragMove(e: PointerEvent) {
     if (this.dragging) {
-      const left = e.ctrlKey ? this.left : e.clientX - this.offsetX;
-      const top = e.shiftKey ? this.top : e.clientY - this.offsetY;
+      const left = e.ctrlKey
+        ? this.left
+        : e.clientX - (this.offsetX - window.scrollX);
+      const top = e.shiftKey
+        ? this.top
+        : e.clientY - (this.offsetY - window.scrollY);
 
       if (!top || !left) return;
       const newPos = this.computeRelativeCoords(top, left);

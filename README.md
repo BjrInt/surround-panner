@@ -6,9 +6,8 @@ A surround panner is like a magical tool for sound that helps us feel immersed i
 
 ## Notes / To Do
 
-- ⚠️ This is not working on Firefox
+- Doesn't work when page is scrolled (to do: use window.scrollTop inside the draggable point if needed)
 - Add volumes computation
-- This should work on mobile phone, but it wasn't battle-tested.
 - The subwoofer volume is not included.
 - The "room" is a circle of diameter 2 (without any units). (TODO: Add room measurements)
 
